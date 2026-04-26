@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIO SVC - 一站式全栈智能服务平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        /* 首屏区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 5% 4rem;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .hero-content .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* 核心价值区 */
+        .features {
+            background: white;
+            padding: 5rem 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* 品牌故事区 */
+        .about {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 5%;
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        /* 联系方式区 */
+        .contact {
+            background: white;
+            padding: 5rem 5%;
+            text-align: center;
+        }
+        
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-info p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">AIO SVC</a>
+            <ul class="nav-links">
+                <li><a href="#features">核心优势</a></li>
+                <li><a href="#about">关于我们</a></li>
+                <li><a href="#contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 首屏区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AIO SVC</h1>
+            <p class="subtitle">All In One Service</p>
+            <p class="tagline">一站式全栈智能服务平台</p>
+            <p style="font-size: 1.1rem; margin-bottom: 3rem; opacity: 0.9;">
+                从模型开发到部署运维，从数据管理到性能优化<br>
+                我们为您提供端到端的AI全链路服务
+            </p>
+            <a href="#contact" class="cta-button">立即体验</a>
+        </div>
+    </section>
+
+    <!-- 核心价值区 -->
+    <section id="features" class="features">
+        <h2 class="section-title">核心价值</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>All In One</h3>
+                <p>整合AI开发、部署、运维、监控全流程，告别碎片化工具，一站式解决所有需求</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Service First</h3>
+                <p>以用户为中心的服务体系，7×24小时专业技术支持，响应速度快</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Scalable</h3>
+                <p>弹性扩展架构，从小规模实验到企业级部署无缝切换，灵活应对业务增长</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Cost Efficient</h3>
+                <p>一体化方案降低30%+运维成本，优化资源配置，提升投资回报率</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌故事区 -->
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>品牌故事</h2>
+            <p><strong>AIO SVC 诞生于一个简单信念：AI服务不该如此复杂。</strong></p>
+            <p>在AI技术飞速发展的今天，企业面临的最大挑战不是技术本身，而是如何将分散的工具、流程、团队整合成高效运转的整体。</p>
+            <p>AIO SVC（All In One Service）应运而生——我们打造了一体化智能服务平台，覆盖AI模型开发、部署、监控、优化的全生命周期。</p>
+            <p>无论是初创团队快速验证想法，还是大型企业构建AI中台，AIO SVC都能提供开箱即用的全栈服务，让您专注于业务创新，而非技术整合。</p>
+            <p style="font-size: 1.3rem; font-weight: bold; margin-top: 2rem;">让AI服务，回归简单。</p>
+        </div>
+    </section>
+
+    <!-- 联系方式区 -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">联系我们</h2>
+        <div class="contact-info">
+            <p>准备好体验一站式AI服务了吗？<br>立即联系我们的团队，获取专属解决方案</p>
+            <div class="contact-buttons">
+                <a href="mailto:ai@altoai.cn" class="contact-btn btn-primary">发送邮件</a>
+                <a href="../aiosvc.cn/dn.html" class="contact-btn btn-primary">立即体验</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2026 AIO SVC. All Rights Reserved. | 一站式全栈智能服务平台</p>
+        <p style="margin-top: 0.5rem;">访问 aiosvc.cn 了解更多</p>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body><body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onbeforecopy="return false" oncopy=document.selection.empty() onselect=document.selection.empty()>
+</html>

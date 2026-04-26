@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIOSVC.CN - 人工智能服务平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* 科技感蓝黑渐变背景 */
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* 科技网格背景效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+        
+        /* 头部展示区 */
+        .hero {
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            color: white;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .domain-name {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            animation: fadeInUp 1s ease, glow 2s ease-in-out infinite alternate;
+        }
+        
+        .domain-tagline {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            color: #e0f7ff;
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+            color: #0f0c29;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            animation: fadeInUp 1.4s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(0, 212, 255, 0.6);
+        }
+        
+        /* 通用模块样式 */
+        .section {
+            padding: 4rem 5%;
+            max-width: 1800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #00d4ff;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+        
+        /* 单排宽屏网格布局 */
+        .meanings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        .meaning-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+        
+        .meaning-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .meaning-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+        }
+        
+        .meaning-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+        }
+        
+        .meaning-desc {
+            color: #e0f7ff;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* 应用场景区 */
+        .scenarios {
+            background: rgba(0, 212, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 1700px;
+        }
+        
+        .scenario-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        .scenario-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .scenario-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        }
+        
+        .scenario-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+        }
+        
+        .scenario-name {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .scenario-item p {
+            color: #e0f7ff;
+            opacity: 0.9;
+        }
+        
+        /* 价值优势区 */
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+        }
+        
+        .advantage-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+        
+        .advantage-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .advantage-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .advantage-text {
+            font-weight: bold;
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .advantage-item p {
+            color: #e0f7ff;
+            opacity: 0.9;
+        }
+        
+        /* 联系我们区 */
+        .contact {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 4rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact .section-title {
+            color: #00d4ff;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+        
+        .contact p {
+            font-size: 1.2rem;
+            color: #e0f7ff;
+            opacity: 0.9;
+        }
+        
+        .contact-info {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-around;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .contact-item {
+            font-size: 1.3rem;
+            color: #e0f7ff;
+        }
+        
+        .contact-label {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #e0f7ff;
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                filter: brightness(1);
+            }
+            to {
+                filter: brightness(1.2);
+            }
+        }
+        
+        /* 响应式适配 */
+        @media (max-width: 1200px) {
+            .meanings-grid, .scenario-list, .advantages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .meanings-grid, .scenario-list, .advantages {
+                grid-template-columns: 1fr;
+            }
+            
+            .domain-name {
+                font-size: 3rem;
+            }
+            
+            .domain-tagline {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">AIOSVC.CN</div>
+            <div class="nav-links">
+                <a href="#meanings">含义解读</a>
+                <a href="#scenarios">应用场景</a>
+                <a href="#advantages">价值优势</a>
+                <a href="#contact">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部展示区 -->
+    <section class="hero">
+        <div class="domain-name">AIOSVC.CN</div>
+<div class="domain-tagline">All In One Service · 一站式全栈智能服务平台</div>
+        <div class="domain-tagline">从模型开发到部署运维，从数据管理到性能优化
+我们为您提供端到端的AI全链路服务</div>
+        <a href="#contact" class="cta-button">立即咨询</a>
+    </section>
+
+    <!-- 含义解释区 -->
+    <section class="section" id="meanings">
+        <h2 class="section-title">SVC 多重专业释义</h2>
+        <div class="meanings-grid">
+            <div class="meaning-card">
+                <div class="meaning-icon">☁️</div>
+                <div class="meaning-title">AI Service</div>
+                <div class="meaning-desc">人工智能服务平台，提供AI能力调用、SaaS订阅、API开放等全链路服务，覆盖企业级AI应用全场景</div>
+            </div>
+            <div class="meaning-card">
+                <div class="meaning-icon">⚡</div>
+                <div class="meaning-title">Service Mesh</div>
+                <div class="meaning-desc">云原生AI服务网格，实现Kubernetes环境下AI微服务的流量治理、负载均衡、可观测性管理</div>
+            </div>
+            <div class="meaning-card">
+                <div class="meaning-icon">🚀</div>
+                <div class="meaning-title">Serverless Cloud</div>
+                <div class="meaning-desc">AI无服务器云平台，按需提供AI函数计算能力，降低AI部署成本，提升资源利用率</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 应用场景区 -->
+    <section class="section" id="scenarios">
+        <h2 class="section-title">核心应用场景</h2>
+        <div class="scenarios">
+            <div class="scenario-list">
+                <div class="scenario-item">
+                    <div class="scenario-icon">🔌</div>
+                    <div class="scenario-name">AI API开放平台</div>
+                    <p>聚合多厂商大模型/AI能力接口</p>
+                </div>
+                <div class="scenario-item">
+                    <div class="scenario-icon">🏢</div>
+                    <div class="scenario-name">企业级AI中台</div>
+                    <p>统一管理企业内部AI模型与服务</p>
+                </div>
+                <div class="scenario-item">
+                    <div class="scenario-icon">📦</div>
+                    <div class="scenario-name">AI SaaS服务</div>
+                    <p>云端AI工具订阅与交付平台</p>
+                </div>
+                <div class="scenario-item">
+                    <div class="scenario-icon">⚙️</div>
+                    <div class="scenario-name">MLOps平台</div>
+                    <p>模型服务化部署与全生命周期管理</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价值优势区 -->
+    <section class="section" id="advantages">
+        <h2 class="section-title">域名核心价值</h2>
+        <div class="advantages">
+            <div class="advantage-item">
+                <div class="advantage-number">8</div>
+                <div class="advantage-text">字符长度</div>
+                <p>简洁易记，输入成本低</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">3</div>
+                <div class="advantage-text">专业释义</div>
+                <p>覆盖服务/网格/无服务器三大场景</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">万亿级</div>
+                <div class="advantage-text">市场规模</div>
+                <p>AI服务化是未来技术主流趋势</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">.CN</div>
+                <div class="advantage-text">顶级后缀</div>
+                <p>国内认可度高，权威性强</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们区 -->
+    <section class="section" id="contact">
+        <div class="contact">
+            <h2 class="section-title">联系我们</h2>
+            <p>如果您对这个优质AI域名感兴趣，欢迎随时联系</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-label">邮箱：</span>
+                    <span>ai@altoai.cn</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">微信：</span>
+                    <span>altoai</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">QQ：</span>
+                    <span>31391890</span>
+                </div>
+            </div>
+            <a href="mailto:ai@altoai.cn" class="cta-button">发送邮件咨询</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2026 <a target="_blank" href="http://altoai.cn/blog" style="text-decoration: none">
+<font color="#e0f7ff">ALTOAI.CN</font></a> 版权所有 | 人工智能服务平台域名</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">本页面仅用于域名展示，不构成任何商业承诺</p>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 12, 41, 0.98)';
+                navbar.style.borderBottom = '1px solid rgba(0, 212, 255, 0.3)';
+            } else {
+                navbar.style.background = 'rgba(15, 12, 41, 0.95)';
+                navbar.style.borderBottom = '1px solid rgba(0, 212, 255, 0.2)';
+            }
+        });
+
+        // 动态网格背景滚动效果
+        window.addEventListener('scroll', function() {
+            document.body.style.setProperty('--scroll-y', window.scrollY + 'px');
+        });
+    </script>
+</body><body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onbeforecopy="return false" oncopy=document.selection.empty() onselect=document.selection.empty()>
+</html>
